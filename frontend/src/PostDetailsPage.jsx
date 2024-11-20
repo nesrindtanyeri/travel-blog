@@ -34,29 +34,29 @@ const PostDetailsPage = () => {
 
   return (
     <div className="w-screen min-h-screen bg-primary text-light p-6">
-  <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-  <p className="text-accent text-lg mb-6">{post.content}</p>
-  <img
-    src={post.cover}
-    alt={post.title}
-    className="w-full h-64 object-cover rounded-lg shadow-lg mb-6"
-  />
+    <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+    <p className="text-accent text-lg mb-6">{post.content}</p>
+    <img
+      src={post.cover}
+      alt={post.title}
+      className="w-full max-w-md h-50 object-cover rounded-lg shadow-lg mx-auto mb-6"
+    />
   <div className="flex space-x-4">
     <button
       onClick={() => navigate('/')}
-      className="btn bg-secondary text-light shadow-md hover:shadow-lg hover:scale-105 transition-transform"
+      className="border border-light bg-light text-primary p-2 rounded"
     >
       Back to Home
     </button>
     <button
       onClick={handleDelete}
-      className="btn bg-red-500 text-light shadow-md hover:shadow-lg hover:scale-105 transition-transform"
+      className="border border-light bg-red-800 text-primary p-2 rounded"
     >
   Delete Post
       </button>
       <button
         onClick={() => navigate(`/edit/${post.id}`)}
-        className="btn bg-accent text-primary shadow-md hover:shadow-lg hover:scale-105 transition-transform"
+        className="border border-light bg-green-900 text-primary p-2 rounded"
       >
         Edit Post
       </button>
