@@ -35,11 +35,19 @@ const Homepage = () => {
 
       {/* Hero Section */}
       <header className="w-full h-screen bg-cover bg-center" style={{ backgroundImage: `url(${heroImage})` }}>
-        <div className="w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+      <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-black via-transparent to-black">
           <div className="text-center text-white">
-            <h1 className="text-5xl font-bold mb-4">Where Ever You Go, Go With Your Heart</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-fade-in">
+  Where Ever You Go, Go With Your Heart
+</h1>
             <p className="text-xl mb-8">Enjoy Your Adventure In Forest Of Dreams. Discover breathtaking places and share your adventures with us.</p>
-            <Link to="/create" className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">Explore More</Link>
+            <Link
+  to="/create"
+  className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition-all transform hover:scale-105 hover:shadow-xl"
+>
+  Explore More
+</Link>
+
           </div>
         </div>
       </header>
