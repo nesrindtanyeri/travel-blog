@@ -70,6 +70,20 @@ app.get("/posts", async (req, res) => {
   }
 });
 
+app.get("/posts/:id", async (req, res) => {
+  const { id } = req.params; // URL'den id'yi al
+  try {
+    const result = await pool.query("SELECT * FROM posts WHERE id = $1", [id]); // Veritabanından id'ye göre sorgu
+    if (result.rows.length === 0) {
+      return res.status(404).send("Post not found"); // Eğer id bulunamazsa 404 döndür
+    }
+    res.json(result.rows[0]); // Post'u JSON formatında döndür
+  } catch (error) {
+    console.error(`[Error - GET /posts/:id]:`, error.message);
+    res.status(500).send({ error: "Internal server error", details: error.message });
+  }
+});
+
 app.post("/posts", async (req, res) => {
   const { author, title, content, cover } = req.body;
   if (!title || !content || !cover) {
