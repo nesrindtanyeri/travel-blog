@@ -23,7 +23,7 @@ const Homepage = () => {
       {/* Navbar */}
       <nav className="bg-secondary text-light p-4 fixed w-full top-0 z-10 shadow-lg">
         <div className="container mx-auto flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold">Travel Blog</a>
+          <a href="#" className="text-1xl font-italic"> A Travel Blog for Keeping Track</a>
         {/* Ortada Logo */}
       <div className="flex justify-center">
         <img
