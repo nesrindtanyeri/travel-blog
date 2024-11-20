@@ -43,10 +43,11 @@ const Homepage = () => {
             <p className="text-xl mb-8">Enjoy Your Adventure In Forest Of Dreams. Discover breathtaking places and share your adventures with us.</p>
             <Link
   to="/create"
-  className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition-all transform hover:scale-105 hover:shadow-xl"
+  className="btn btn-primary btn-lg hover:scale-105 transition-transform"
 >
   Explore More
 </Link>
+
 
           </div>
         </div>
