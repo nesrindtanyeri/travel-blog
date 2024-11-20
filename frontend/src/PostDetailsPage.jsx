@@ -29,17 +29,40 @@ const PostDetailsPage = () => {
   };
 
   if (!post) {
-    return <p>Loading...</p>;
+    return <p className="text-accent">Loading...</p>;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold">{post.title}</h1>
-      <p className="text-gray-600">{post.content}</p>
-      <img src={post.cover} alt={post.title} className="w-full h-64 object-cover my-4" />
-      <button onClick={handleDelete} className="bg-red-500 text-white p-2 rounded">Delete Post</button>
+    <div className="w-screen min-h-screen bg-primary text-light p-6">
+  <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+  <p className="text-accent text-lg mb-6">{post.content}</p>
+  <img
+    src={post.cover}
+    alt={post.title}
+    className="w-full h-64 object-cover rounded-lg shadow-lg mb-6"
+  />
+  <div className="flex space-x-4">
+    <button
+      onClick={() => navigate('/')}
+      className="btn bg-secondary text-light shadow-md hover:shadow-lg hover:scale-105 transition-transform"
+    >
+      Back to Home
+    </button>
+    <button
+      onClick={handleDelete}
+      className="btn bg-red-500 text-light shadow-md hover:shadow-lg hover:scale-105 transition-transform"
+    >
+  Delete Post
+      </button>
+      <button
+        onClick={() => navigate(`/edit/${post.id}`)}
+        className="btn bg-accent text-primary shadow-md hover:shadow-lg hover:scale-105 transition-transform"
+      >
+        Edit Post
+      </button>
     </div>
-  );
+  </div>
+);
 };
 
 export default PostDetailsPage;
