@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import heroImage from './img/4.jpg';
+import heroVideo from './img/hero-video.mp4';
 
 const Homepage = () => {
   const [posts, setPosts] = useState([]);
@@ -23,7 +23,15 @@ const Homepage = () => {
       {/* Navbar */}
       <nav className="bg-secondary text-light p-4 fixed w-full top-0 z-10 shadow-lg">
         <div className="container mx-auto flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold">Travel Blog</a>
+          <a href="#" className="text-1xl font-italic"> A Travel Blog for Keeping Track</a>
+        {/* Ortada Logo */}
+      <div className="flex justify-center">
+        <img
+          src={'/img/bon-voyage.png'} // Logo yolu
+          alt="Bon Voyage Logo"
+          className="w-52 h-auto" // Logo boyutu
+        />
+      </div>  
           <ul className="flex space-x-6">
             <li><Link to="/" className="hover:text-accent">Home</Link></li>
             <li><Link to="/about" className="hover:text-accent">About</Link></li>
@@ -32,22 +40,35 @@ const Homepage = () => {
           </ul>
         </div>
       </nav>
-{/* Hero Section */}
-<header className="relative w-full h-[80vh] bg-cover bg-center" style={{ backgroundImage: `url(${heroImage})` }}>
+      <header className="relative w-full h-[80vh] flex items-center justify-center">
+  {/* Video Container */}
+  <div className="relative w-[90%] h-full overflow-hidden rounded-3xl shadow-lg">
+    {/* Video */}
+    <video
+      className="w-full h-full object-cover"
+      src={heroVideo} // Yerel dosya veya URL
+      autoPlay
+      loop
+      muted
+    ></video>
+  </div>
+
   {/* Overlay */}
-  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+  <div className="absolute inset-0 bg-black bg-opacity-30 rounded-3xl"></div>
+
   {/* Content */}
-  <div className="relative z-10 flex flex-col items-center justify-center text-center text-white h-full">
+  <div className="absolute z-10 flex flex-col items-center justify-center text-center text-white">
     <h1 className="text-4xl md:text-5xl font-bold mb-4">Where Ever You Go, Go With Your Heart</h1>
-    <p className="text-xl mb-8">Enjoy Your Adventure In Forest Of Dreams. Discover breathtaking places and share your adventures with us.</p>
+    <p className="text-xl mb-8">
+      Enjoy Your Adventure In Forest Of Dreams. Discover breathtaking places and share your adventures with us.
+    </p>
     <div className="flex space-x-4">
-    <Link
+      <Link
         to="/create"
         className="btn bg-accent text-light shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 px-6 py-3 rounded-lg"
       >
         Create Yours Now
       </Link>
-      {/* Explore Posts Button */}
       <Link
         to="/posts"
         className="btn bg-secondary text-light shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 px-6 py-3 rounded-lg"
@@ -58,24 +79,25 @@ const Homepage = () => {
   </div>
 </header>
 
-
-
-  {/* Main Content (Homepage Posts) */}
-<main className="container mx-auto p-6 mt-16">
-  <h1 className="text-3xl font-bold mb-4">All Posts</h1>
+{/* Main Content (Homepage Posts) */}
+<main className="container mx-auto p-0 mt-16 bg-primary">
+  <h1 className="text-center text-3xl font-bold mb-4">All Posts</h1>
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {posts.length > 0 ? (
       posts.map((post) => (
-        <div
+        <Link
+          to={`/posts/${post.id}`} // PostDetailsPage yönlendirmesi
           key={post.id}
-          className="relative border border-light bg-secondary rounded-lg shadow-lg overflow-hidden"
+          className="group relative border border-light bg-secondary rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105 hover:shadow-xl"
         >
           {/* Görsel */}
-          <img
-            src={post.cover}
-            alt={post.title}
-            className="w-full h-48 object-cover"
-          />
+          <div className="w-full h-48 overflow-hidden">
+            <img
+              src={post.cover}
+              alt={post.title}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+          </div>
           {/* Açıklama */}
           <div className="p-4">
             <h2 className="text-xl font-bold text-light mb-2">{post.title}</h2>
@@ -83,33 +105,45 @@ const Homepage = () => {
               {post.content.substring(0, 100)}...
             </p>
           </div>
-          {/* Read More Butonu */}
-          <Link
-            to={`/posts/${post.id}`}
-            className="absolute bottom-4 right-4 bg-accent text-primary text-sm px-4 py-2 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-transform"
-          >
-            Read More
-          </Link>
-        </div>
+          {/* Read More Hover Effect */}
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="text-light text-lg font-semibold">Read More</span>
+          </div>
+        </Link>
       ))
     ) : (
       <p className="text-accent">No posts available.</p>
     )}
   </div>
 </main>
+{/* Footer */}
+<footer className="bg-secondary text-light p-4 mt-8">
+  <div className="container mx-auto flex justify-between items-center">
+    {/* Logo Solda */}
+    <div className="flex items-center">
+      <img
+        src="/img/bon-voyage.png" // Logo yolu
+        alt="Bon Voyage Logo"
+        className="w-48 h-auto" // Logo boyutu
+      />
+    </div>
+
+    {/* Metin Ortada */}
+    <div className="text-center">
+      <p>&copy; 2024 Travel Blog. All rights reserved.</p>
+    </div>
+
+    {/* Sosyal Medya Linkleri Sağda */}
+    <div className="flex space-x-4">
+      <a href="#" className="hover:text-accent"><i className="fab fa-facebook"></i></a>
+      <a href="#" className="hover:text-accent"><i className="fab fa-twitter"></i></a>
+      <a href="#" className="hover:text-accent"><i className="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</footer>
 
 
-      {/* Footer */}
-      <footer className="bg-secondary text-light p-4 mt-8">
-        <div className="container mx-auto text-center">
-          <p>&copy; 2024 Travel Blog. All rights reserved.</p>
-          <div className="flex justify-center mt-4 space-x-4">
-            <a href="#" className="hover:text-accent"><i className="fab fa-facebook"></i></a>
-            <a href="#" className="hover:text-accent"><i className="fab fa-twitter"></i></a>
-            <a href="#" className="hover:text-accent"><i className="fab fa-instagram"></i></a>
-          </div>
-        </div>
-      </footer>
+
     </div>
   );
 };
