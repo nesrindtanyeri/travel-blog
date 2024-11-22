@@ -36,7 +36,10 @@ const EditPostPage = () => {
     console.log("Form Data:", formData);
 
     try {
-      await axios.put(`http://localhost:5000/posts/${id}`, formData);
+      await axios.put(`http://localhost:5000/posts/${id}`, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+
       setNotification("Post updated successfully!");
       setTimeout(() => setNotification(""), 3000);
       navigate(`/posts/${id}`);
