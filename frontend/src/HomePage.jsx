@@ -26,7 +26,7 @@ const Homepage = () => {
             href="#"
             className="text-xl italic transition-transform duration-500 hover:scale-110 hover:text-accent animate-bounce"
           >
-            A Travel Blog for Keeping Track
+            Bon Voyage - Enjoy & Remember
           </a>
 
           <div className="flex justify-center">

@@ -5,8 +5,8 @@ import axios from 'axios';
 const PostDetailsPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); 
-  const [notification, setNotification] = useState(''); 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [notification, setNotification] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,6 +16,8 @@ const PostDetailsPage = () => {
         setPost(response.data);
       } catch (error) {
         console.error('Error fetching post:', error);
+        setNotification('Failed to fetch post.');
+        setTimeout(() => setNotification(''), 3000);
       }
     };
     fetchPost();
@@ -25,25 +27,31 @@ const PostDetailsPage = () => {
     try {
       await axios.delete(`http://localhost:5000/posts/${id}`);
       setNotification('Post deleted successfully!');
-      setTimeout(() => navigate('/'), 2000); 
+      setTimeout(() => navigate('/'), 2000);
     } catch (error) {
       console.error('Error deleting post:', error);
+      setNotification('Failed to delete post.');
     }
   };
 
   const handleEdit = () => {
-    setNotification('Post updated successfully!');
-    setTimeout(() => setNotification(''), 3000); 
+    if (!post || !post.id) {
+      console.error('Post or Post ID is undefined');
+      return;
+    }
     navigate(`/edit/${post.id}`);
   };
 
   if (!post) {
-    return <p className="text-accent">Loading...</p>;
+    return (
+      <div className="w-screen min-h-screen flex items-center justify-center bg-primary text-light">
+        <p className="text-accent text-xl">Loading post details...</p>
+      </div>
+    );
   }
 
   return (
     <div className="w-screen min-h-screen bg-primary text-light p-6">
-
       <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
       <p className="text-accent text-lg mb-6">{post.content}</p>
       <img
@@ -51,15 +59,15 @@ const PostDetailsPage = () => {
         alt={post.title}
         className="w-full max-w-md h-50 object-cover rounded-lg shadow-lg mx-auto mb-6"
       />
-
-
       {notification && (
-        <div className="bg-green-800 text-light p-4 mb-4 rounded">
+        <div
+          className={`p-4 mb-4 rounded ${
+            notification.includes('success') ? 'bg-green-800' : 'bg-red-800'
+          }`}
+        >
           {notification}
         </div>
       )}
-
-
       <div className="flex space-x-4">
         <button
           onClick={() => navigate('/')}
@@ -80,12 +88,19 @@ const PostDetailsPage = () => {
           Edit Post
         </button>
       </div>
-
       {showDeleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          role="dialog"
+          aria-labelledby="delete-modal-title"
+        >
           <div className="bg-secondary text-light p-6 rounded shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">Are you sure?</h2>
-            <p className="mb-4">Do you really want to delete this post? This action cannot be undone.</p>
+            <h2 id="delete-modal-title" className="text-2xl font-bold mb-4">
+              Are you sure?
+            </h2>
+            <p className="mb-4">
+              Do you really want to delete this post? This action cannot be undone.
+            </p>
             <div className="flex space-x-4">
               <button
                 onClick={handleDelete}

@@ -10,7 +10,7 @@ const EditPostPage = () => {
     content: "",
     cover: "",
   });
-  const [notification, setNotification] = useState(""); 
+  const [notification, setNotification] = useState("");
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -33,9 +33,13 @@ const EditPostPage = () => {
     e.preventDefault();
     console.log("API Endpoint:", `http://localhost:5000/posts/${id}`);
     console.log("Form Data Before Submit:", formData);
-  
+    console.log("Form Data:", formData);
+
     try {
-      await axios.put(`http://localhost:5000/posts/${id}`, formData);
+      await axios.put(`http://localhost:5000/posts/${id}`, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+
       setNotification("Post updated successfully!");
       setTimeout(() => setNotification(""), 3000);
       navigate(`/posts/${id}`);
@@ -44,8 +48,6 @@ const EditPostPage = () => {
       setNotification("Failed to update post.");
     }
   };
-  
-  
 
   return (
     <div className="w-screen min-h-screen bg-primary text-light p-6">
