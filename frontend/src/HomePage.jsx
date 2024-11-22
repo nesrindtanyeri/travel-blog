@@ -90,18 +90,17 @@ const Homepage = () => {
         </div>
       </header>
 
-      {/* Homepage Posts */}
+      {/* All Posts */}
       <main className="container mx-auto p-0 mt-16 bg-primary">
         <h1 className="text-center text-3xl font-bold mb-4">All Posts</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.length > 0 ? (
             posts.map((post) => (
               <Link
-                to={`/posts/${post.id}`} // PostDetailsPage 
+                to={`/posts/${post.id}`} 
                 key={post.id}
                 className="group relative border border-light bg-secondary rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105 hover:shadow-xl"
               >
-                {/* img */}
                 <div className="w-full h-48 overflow-hidden">
                   <img
                     src={post.cover}
@@ -109,7 +108,6 @@ const Homepage = () => {
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 </div>
-                {/* content */}
                 <div className="p-4">
                   <h2 className="text-xl font-bold text-light mb-2">
                     {post.title}
@@ -118,7 +116,6 @@ const Homepage = () => {
                     {post.content.substring(0, 100)}...
                   </p>
                 </div>
-                {/* Read More Hover Effect */}
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <span className="text-light text-lg font-semibold">
                     Read More
@@ -131,7 +128,6 @@ const Homepage = () => {
           )}
         </div>
       </main>
-      {/* Footer */}
       <footer className="bg-secondary text-light p-4 mt-8">
         <div className="container mx-auto flex justify-between items-center">
 
