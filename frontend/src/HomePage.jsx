@@ -20,7 +20,6 @@ const Homepage = () => {
 
   return (
     <div className="font-sans bg-primary text-light">
-      {/* Navbar */}
       <nav className="bg-secondary text-light p-4 fixed w-full top-0 z-10 shadow-lg">
         <div className="container mx-auto flex justify-between items-center">
           <a
@@ -30,12 +29,11 @@ const Homepage = () => {
             A Travel Blog for Keeping Track
           </a>
 
-          {/* Ortada Logo */}
           <div className="flex justify-center">
             <img
-              src={"/img/bon-voyage.png"} // Logo yolu
+              src={"/img/bon-voyage.png"} 
               alt="Bon Voyage Logo"
-              className="w-52 h-auto" // Logo boyutu
+              className="w-52 h-auto" 
             />
           </div>
           <ul className="flex space-x-6">
@@ -53,22 +51,20 @@ const Homepage = () => {
         </div>
       </nav>
       <header className="relative w-full h-[80vh] flex items-center justify-center">
-        {/* Video Container */}
+        
         <div className="relative w-[90%] h-full overflow-hidden rounded-3xl shadow-lg">
-          {/* Video */}
+          
           <video
             className="w-full h-full object-cover"
-            src={heroVideo} // Yerel dosya veya URL
+            src={heroVideo} 
             autoPlay
             loop
             muted
           ></video>
         </div>
 
-        {/* Overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-30 rounded-3xl"></div>
 
-        {/* Content */}
         <div className="absolute z-10 flex flex-col items-center justify-center text-center text-white">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Where Ever You Go, Go With Your Heart
@@ -94,18 +90,18 @@ const Homepage = () => {
         </div>
       </header>
 
-      {/* Main Content (Homepage Posts) */}
+      {/* Homepage Posts */}
       <main className="container mx-auto p-0 mt-16 bg-primary">
         <h1 className="text-center text-3xl font-bold mb-4">All Posts</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.length > 0 ? (
             posts.map((post) => (
               <Link
-                to={`/posts/${post.id}`} // PostDetailsPage yönlendirmesi
+                to={`/posts/${post.id}`} // PostDetailsPage 
                 key={post.id}
                 className="group relative border border-light bg-secondary rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105 hover:shadow-xl"
               >
-                {/* Görsel */}
+                {/* img */}
                 <div className="w-full h-48 overflow-hidden">
                   <img
                     src={post.cover}
@@ -113,7 +109,7 @@ const Homepage = () => {
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 </div>
-                {/* Açıklama */}
+                {/* content */}
                 <div className="p-4">
                   <h2 className="text-xl font-bold text-light mb-2">
                     {post.title}
@@ -138,21 +134,19 @@ const Homepage = () => {
       {/* Footer */}
       <footer className="bg-secondary text-light p-4 mt-8">
         <div className="container mx-auto flex justify-between items-center">
-          {/* Logo Solda */}
+
           <div className="flex items-center">
             <img
-              src="/img/bon-voyage.png" // Logo yolu
+              src="/img/bon-voyage.png" 
               alt="Bon Voyage Logo"
-              className="w-48 h-auto" // Logo boyutu
+              className="w-48 h-auto" 
             />
           </div>
 
-          {/* Metin Ortada */}
           <div className="text-center">
             <p>&copy; 2024 Travel Blog. All rights reserved.</p>
           </div>
 
-          {/* Sosyal Medya Linkleri Sağda */}
           <div className="flex space-x-4">
             <a href="#" className="hover:text-accent">
               <i className="fab fa-facebook"></i>

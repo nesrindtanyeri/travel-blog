@@ -19,7 +19,7 @@ const pool = new Pool({
   connectionTimeoutMillis: 2000,
 });
 
-// PostgreSQL Bağlantısını Kontrol Et
+// PostgreSQL connection
 try {
   pool.connect((err, client, release) => {
     if (err) {
@@ -35,7 +35,7 @@ try {
   process.exit(1);
 }
 
-// Unexpected Error Handling
+// Error Handling
 pool.on("error", (err) => {
   console.error("Unexpected error on idle client", err);
   process.exit(-1);
@@ -44,22 +44,20 @@ pool.on("error", (err) => {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// İstek Loglama
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
 });
 
-// Basit Bir Test Endpoint
+// Test 
 app.get("/", (req, res) => {
   res.send("API is working!");
 });
 
-// CRUD İşlemleri
+// CRUD 
 app.get("/posts", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM posts");
@@ -71,13 +69,13 @@ app.get("/posts", async (req, res) => {
 });
 
 app.get("/posts/:id", async (req, res) => {
-  const { id } = req.params; // URL'den id'yi al
+  const { id } = req.params; 
   try {
-    const result = await pool.query("SELECT * FROM posts WHERE id = $1", [id]); // Veritabanından id'ye göre sorgu
+    const result = await pool.query("SELECT * FROM posts WHERE id = $1", [id]); 
     if (result.rows.length === 0) {
-      return res.status(404).send("Post not found"); // Eğer id bulunamazsa 404 döndür
+      return res.status(404).send("Post not found"); 
     }
-    res.json(result.rows[0]); // Post'u JSON formatında döndür
+    res.json(result.rows[0]); 
   } catch (error) {
     console.error(`[Error - GET /posts/:id]:`, error.message);
     res.status(500).send({ error: "Internal server error", details: error.message });

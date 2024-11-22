@@ -5,8 +5,8 @@ import axios from 'axios';
 const PostDetailsPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // Silme onay modali
-  const [notification, setNotification] = useState(''); // Bildirim mesajları
+  const [showDeleteModal, setShowDeleteModal] = useState(false); 
+  const [notification, setNotification] = useState(''); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const PostDetailsPage = () => {
     try {
       await axios.delete(`http://localhost:5000/posts/${id}`);
       setNotification('Post deleted successfully!');
-      setTimeout(() => navigate('/'), 2000); // 2 saniye sonra ana sayfaya yönlendirme
+      setTimeout(() => navigate('/'), 2000); 
     } catch (error) {
       console.error('Error deleting post:', error);
     }
@@ -33,7 +33,7 @@ const PostDetailsPage = () => {
 
   const handleEdit = () => {
     setNotification('Post updated successfully!');
-    setTimeout(() => setNotification(''), 3000); // 3 saniye sonra mesajı kaldır
+    setTimeout(() => setNotification(''), 3000); 
     navigate(`/edit/${post.id}`);
   };
 
@@ -43,7 +43,7 @@ const PostDetailsPage = () => {
 
   return (
     <div className="w-screen min-h-screen bg-primary text-light p-6">
-      {/* Başlık ve İçerik */}
+
       <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
       <p className="text-accent text-lg mb-6">{post.content}</p>
       <img
@@ -52,14 +52,14 @@ const PostDetailsPage = () => {
         className="w-full max-w-md h-50 object-cover rounded-lg shadow-lg mx-auto mb-6"
       />
 
-      {/* Bildirim Mesajı */}
+
       {notification && (
         <div className="bg-green-800 text-light p-4 mb-4 rounded">
           {notification}
         </div>
       )}
 
-      {/* Butonlar */}
+
       <div className="flex space-x-4">
         <button
           onClick={() => navigate('/')}
@@ -81,7 +81,6 @@ const PostDetailsPage = () => {
         </button>
       </div>
 
-      {/* Silme Onay Modalı */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-secondary text-light p-6 rounded shadow-lg">
