@@ -82,7 +82,7 @@ const EditPostPage = () => {
         </div>
       </nav>
 
-      {/* Main Content */}
+      {/* Post */}
       <div className="flex-1 w-screen bg-primary text-light p-6 pt-20">
         <h1 className="text-4xl font-bold mb-4">Edit Post</h1>
         {/* Notification */}
@@ -123,8 +123,6 @@ const EditPostPage = () => {
           </button>
         </form>
       </div>
-
-      {/* Footer */}
       <footer className="bg-secondary text-light p-4 mt-auto">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center">
