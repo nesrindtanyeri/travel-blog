@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"], // Tailwind'in hangi dosyaları tarayacağını belirtin
+  content: ["./src/**/*.{js,jsx,ts,tsx}"], 
   theme: {
     extend: {
       colors: {

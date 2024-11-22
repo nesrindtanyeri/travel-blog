@@ -18,9 +18,10 @@ const CreatePostPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Img select modal
   const handleImageSelect = (imageUrl) => {
     setFormData((prev) => ({ ...prev, cover: imageUrl }));
-    setShowImageSelector(false); // Modalı kapat
+    setShowImageSelector(false); 
   };
 
   const handleSubmit = async (e) => {
@@ -82,7 +83,6 @@ const CreatePostPage = () => {
           onChange={handleChange}
           className="border border-light bg-light text-primary p-2 rounded"
         />
-        {/* Görsel Seçim Butonu */}
         <button
           type="button"
           className="btn btn-primary shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300"
@@ -90,7 +90,6 @@ const CreatePostPage = () => {
         >
           Browse Images
         </button>
-        {/* Seçilen Görselin Önizlemesi */}
         {formData.cover && (
           <div className="flex flex-col items-center mt-4">
             <img
@@ -109,7 +108,7 @@ const CreatePostPage = () => {
         </button>
       </form>
 
-      {/* Görsel Seçim Modalı */}
+      {/* Select img modal */}
       {showImageSelector && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-primary text-light rounded-lg p-6 w-3/4 max-h-[80vh] overflow-y-auto">
