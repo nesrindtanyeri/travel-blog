@@ -46,13 +46,19 @@ pool.on("error", (err) => {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.use(express.json());
+
+const cors = require('cors');
+app.use(cors());
+
 app.put("/posts/:id", async (req, res) => {
   console.log("Received PUT request at /posts/:id with ID:", req.params.id);
   const { id } = req.params;
   const { author, title, content, cover } = req.body;
+  console.log(req.body);
 
-  if (!title && !content && !cover && !author) {
-    return res.status(400).send("At least one field is required to update.");
+  if (!author || !title || !content || !cover) {
+    return res.status(400).json({ error: 'All fields are required' });
   }
 
   try {
@@ -60,11 +66,11 @@ app.put("/posts/:id", async (req, res) => {
       "UPDATE posts SET author = COALESCE($1, author), title = COALESCE($2, title), content = COALESCE($3, content), cover = COALESCE($4, cover) WHERE id = $5 RETURNING *",
       [author, title, content, cover, id]
     );
+    res.json({ message: `Post with ID ${id} updated successfully!` });
 
     if (result.rows.length === 0) {
       return res.status(404).send("Post not found.");
     }
-
     res.json(result.rows[0]);
   } catch (error) {
     console.error("Error updating post:", error);
