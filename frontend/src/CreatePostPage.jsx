@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
 const CreatePostPage = () => {
   const [formData, setFormData] = useState({
-    author: '',
-    title: '',
-    content: '',
-    cover: '',
+    author: "",
+    title: "",
+    content: "",
+    cover: "",
   });
+  const [showImageSelector, setShowImageSelector] = useState(false);
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,53 +18,184 @@ const CreatePostPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Img select modal
+  const handleImageSelect = (imageUrl) => {
+    setFormData((prev) => ({ ...prev, cover: imageUrl }));
+    setShowImageSelector(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/posts', formData);
-      navigate('/');
+      await axios.post("http://localhost:5000/posts", formData);
+      navigate("/");
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error("Error creating post:", error);
     }
   };
 
+  const imageOptions = [
+    "https://tinyurl.com/3uvf948v",
+    "https://tinyurl.com/38rjekrr",
+    "https://tinyurl.com/4yba2hb4",
+    "https://tinyurl.com/363txf35",
+    "https://tinyurl.com/u38ep8jt",
+    "https://tinyurl.com/522b479a",
+    "https://tinyurl.com/ufnr6yv9",
+    "https://tinyurl.com/yck58n3t",
+    "https://tinyurl.com/2za7n93r",
+    "https://tinyurl.com/y5yyetw9",
+    "https://tinyurl.com/3h2c3bba",
+    "https://tinyurl.com/ph7x65fp",
+    "https://tinyurl.com/24z43y2f",
+    "https://tinyurl.com/3u35mzb8",
+    "https://tinyurl.com/y4rwmwdy",
+    "https://tinyurl.com/594pkcv5",
+  ];
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Create New Post</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="text"
-          name="author"
-          placeholder="Author"
-          value={formData.author}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={formData.title}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <textarea
-          name="content"
-          placeholder="Content"
-          value={formData.content}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="cover"
-          placeholder="Cover Image URL"
-          value={formData.cover}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">Create Post</button>
-      </form>
+    <div className="font-sans bg-secondary text-light min-h-screen flex flex-col">
+    
+      <nav className="bg-secondary text-light p-4 fixed w-full top-0 z-10 shadow-lg">
+        <div className="container mx-auto flex justify-between items-center">
+    
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="flex justify-center">
+              <img
+                src={"/img/bon-voyage.png"}
+                alt="Bon Voyage Logo"
+                className="w-52 h-auto"
+              />
+            </div>
+          </Link>
+
+          <ul className="flex space-x-6">
+            <li>
+              <Link to="/" className="hover:text-accent">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/posts" className="hover:text-accent">
+                View Posts
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div className="flex-1 w-screen bg-secondary text-light p-4 pt-20">
+        <h1 className="text-3xl font-bold mb-4">Create New Post</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4 bg-primary p-6 rounded-lg shadow-lg"
+        >
+          <input
+            type="text"
+            name="author"
+            placeholder="Author"
+            value={formData.author}
+            onChange={handleChange}
+            className="border border-light bg-light text-primary p-2 rounded"
+          />
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            value={formData.title}
+            onChange={handleChange}
+            className="border border-light bg-light text-primary p-2 rounded"
+          />
+          <textarea
+            name="content"
+            placeholder="Content"
+            value={formData.content}
+            onChange={handleChange}
+            className="border border-light bg-light text-primary p-2 rounded"
+          />
+          <button
+            type="button"
+            className="btn btn-primary shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300"
+            onClick={() => setShowImageSelector(true)}
+          >
+            Browse Images
+          </button>
+          {formData.cover && (
+            <div className="flex flex-col items-center mt-4">
+              <img
+                src={formData.cover}
+                alt="Selected Cover"
+                className="w-32 h-32 object-cover rounded-lg"
+              />
+              <p className="text-sm text-light mt-2">Selected Image</p>
+            </div>
+          )}
+          <button
+            type="submit"
+            className="btn btn-primary shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300"
+          >
+            Create Post
+          </button>
+        </form>
+      </div>
+
+      {/* Select img modal */}
+      {showImageSelector && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-primary text-light rounded-lg p-6 w-3/4 max-h-[80vh] overflow-y-auto">
+            <h2 className="text-2xl font-bold mb-4">Select an Image</h2>
+            <div className="grid grid-cols-4 gap-4">
+              {imageOptions.map((imageUrl, index) => (
+                <div
+                  key={index}
+                  className="cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => handleImageSelect(imageUrl)}
+                >
+                  <img
+                    src={imageUrl}
+                    alt={`Option ${index + 1}`}
+                    className="w-full h-24 object-cover rounded-lg border-2 border-light"
+                  />
+                </div>
+              ))}
+            </div>
+            <button
+              className="btn btn-secondary mt-4"
+              onClick={() => setShowImageSelector(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      <footer className="bg-secondary text-light p-4 mt-8">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center">
+            <img
+              src="/img/bon-voyage.png"
+              alt="Bon Voyage Logo"
+              className="w-48 h-auto"
+            />
+          </div>
+
+          <div className="text-center">
+            <p>&copy; 2024 Travel Blog. All rights reserved.</p>
+          </div>
+
+          <div className="flex space-x-4">
+            <a href="#" className="hover:text-accent">
+              <i className="fab fa-facebook"></i>
+            </a>
+            <a href="#" className="hover:text-accent">
+              <i className="fab fa-twitter"></i>
+            </a>
+            <a href="#" className="hover:text-accent">
+              <i className="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

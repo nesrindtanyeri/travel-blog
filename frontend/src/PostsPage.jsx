@@ -1,22 +1,36 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import heroVideo from "./img/hero-video.mp4";
 
-const Homepage = () => {
+const PostsPage = () => {
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get("http://localhost:5000/posts");
         setPosts(response.data);
+        setFilteredPosts(response.data);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
     };
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredPosts(posts);
+    } else {
+      setFilteredPosts(
+        posts.filter((post) =>
+          post.title.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
+  }, [searchQuery, posts]);
 
   return (
     <div className="font-sans bg-primary text-light">
@@ -50,54 +64,26 @@ const Homepage = () => {
           </ul>
         </div>
       </nav>
-      <header className="relative w-full h-[80vh] flex items-center justify-center">
-        
-        <div className="relative w-[90%] h-full overflow-hidden rounded-3xl shadow-lg">
-          
-          <video
-            className="w-full h-full object-cover"
-            src={heroVideo} 
-            autoPlay
-            loop
-            muted
-          ></video>
+
+      <main className="container mx-auto mt-20 p-4 flex-1">
+        <h1 className="text-center text-3xl font-bold mb-6">All Posts</h1>
+
+        {/* Search Bar */}
+        <div className="flex justify-center mb-6">
+          <input
+            type="text"
+            placeholder="Search posts by title..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full max-w-md p-3 text-secondary border border-light rounded-lg shadow focus:outline-none focus:ring focus:ring-accent text-dark"
+          />
         </div>
 
-        <div className="absolute inset-0 bg-black bg-opacity-30 rounded-3xl"></div>
-
-        <div className="absolute z-10 flex flex-col items-center justify-center text-center text-white">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Where Ever You Go, Go With Your Heart
-          </h1>
-          <p className="text-xl mb-8">
-            Enjoy Your Adventure In Forest Of Dreams. Discover breathtaking
-            places and share your adventures with us.
-          </p>
-          <div className="flex space-x-4">
-            <Link
-              to="/create"
-              className="btn bg-accent text-light shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 px-6 py-3 rounded-lg"
-            >
-              Create Yours Now
-            </Link>
-            <Link
-              to="/posts"
-              className="btn bg-secondary text-light shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 px-6 py-3 rounded-lg"
-            >
-              Explore Previous Posts
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {/* All Posts */}
-      <main className="container mx-auto p-0 mt-16 bg-primary">
-        <h1 className="text-center text-3xl font-bold mb-4">All Posts</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.length > 0 ? (
-            posts.map((post) => (
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
               <Link
-                to={`/posts/${post.id}`} 
+                to={`/posts/${post.id}`}
                 key={post.id}
                 className="group relative border border-light bg-secondary rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105 hover:shadow-xl"
               >
@@ -108,14 +94,16 @@ const Homepage = () => {
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 </div>
+
                 <div className="p-4">
                   <h2 className="text-xl font-bold text-light mb-2">
                     {post.title}
                   </h2>
-                  <p className="text-accent mb-4">
+                  <p className="text-accent">
                     {post.content.substring(0, 100)}...
                   </p>
                 </div>
+
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <span className="text-light text-lg font-semibold">
                     Read More
@@ -124,40 +112,18 @@ const Homepage = () => {
               </Link>
             ))
           ) : (
-            <p className="text-accent">No posts available.</p>
+            <p className="text-center text-accent">No posts found.</p>
           )}
         </div>
       </main>
-      <footer className="bg-secondary text-light p-4 mt-8">
-        <div className="container mx-auto flex justify-between items-center">
 
-          <div className="flex items-center">
-            <img
-              src="/img/bon-voyage.png" 
-              alt="Bon Voyage Logo"
-              className="w-48 h-auto" 
-            />
-          </div>
-
-          <div className="text-center">
-            <p>&copy; 2024 Travel Blog. All rights reserved.</p>
-          </div>
-
-          <div className="flex space-x-4">
-            <a href="#" className="hover:text-accent">
-              <i className="fab fa-facebook"></i>
-            </a>
-            <a href="#" className="hover:text-accent">
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a href="#" className="hover:text-accent">
-              <i className="fab fa-instagram"></i>
-            </a>
-          </div>
+      <footer className="bg-secondary text-light p-4">
+        <div className="container mx-auto text-center">
+          <p>&copy; 2024 Travel Blog. All rights reserved.</p>
         </div>
       </footer>
     </div>
   );
 };
 
-export default Homepage;
+export default PostsPage;
